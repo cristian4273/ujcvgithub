@@ -1,0 +1,106 @@
+public class Heap {
+
+	private int[] arr;
+	private int tamaño;
+
+	public Heap(){
+		arr = new int[0];
+		tamaño = 0;
+	}
+
+	public int getPadre(int indice){
+		if(indice == 0){
+			return -1;
+		}
+		return (indice - 1) / 2;
+	}
+
+	public int getHijoIzq(int indice){
+		int temp = (indice * 2) + 1;
+		if(temp >= tamaño){
+			return -1;
+		}
+		return temp;
+	}
+
+	public int getHijoDer(int indice){
+		int temp = (indice * 2) + 2;
+		if(temp >= tamaño){
+			return -1;
+		}
+		return temp;
+	}
+
+	public void flotar(int indice){
+		if(getPadre(indice) == -1){
+			return;
+		}
+		int padre = getPadre(indice);
+		if(arr[indice] > arr[padre]){
+			return;
+		}
+		int temp = arr[indice];
+		arr[indice] = arr[padre];
+		arr[padre] = temp;
+		flotar(padre);
+	}
+
+	public void hundir(int indice){
+		if(getHijoIzq(indice) == -1 || getHijoDer(indice) == -1){
+			return;
+		}
+		int hijo;
+		if(arr[getHijoIzq(indice)] < arr[getHijoDer(indice)]){
+			hijo = getHijoIzq(indice);
+		}
+		else{
+			hijo = getHijoDer(indice);
+		}
+		if(arr[indice] < arr[hijo]){
+			return;
+		}
+		int temp = arr[hijo];
+		arr[hijo] = arr[indice];
+		arr[indice] = temp;
+		hundir(hijo);
+	}
+
+	public void agregar(int valor){
+		if(tamaño == 0){
+			int[] temp = new int[1];
+			temp[0] = valor;
+			arr = temp;
+			tamaño++;
+			return;
+		}
+		int[] temp = new int[tamaño + 1];
+		for(int i = 0; i < arr.length; i++){
+			temp[i] = arr[i];
+		}
+		temp[tamaño] = valor;
+		arr = temp;
+		tamaño++;
+		flotar(tamaño - 1);
+	}
+
+	public int remover(){
+		if(tamaño == 0){
+			return -1;
+		}
+		int retval = arr[0];
+		arr[0] = arr[tamaño - 1];
+		int[] temp = new int[tamaño - 1];
+		for(int i = 0; i < tamaño - 1; i++){
+			temp[i] = arr[i];
+		}
+		arr = temp;
+		tamaño--;
+		hundir(0);
+		return retval;
+	}
+
+}
+
+//el bubblesort compara cada elemento de la lista con todos los demás elementos y los va sustituyendo de forma que se ordenen de menor a mayor Este es el más largo de todos porque como recorre toda la lista n cantidad de veces, se hace muy extenso
+//El heapsort utiliza la propiedad del montículo que dice que el primer elemento en el montículo siempre será el de menor valor, así que el algoritmo en sí sólo introduce los elementos de la lista uno por uno en el montículo y luego los vuelve a sacar uno por uno En teoría, este es el más rápido porque sólo se mete y se saca la lista, todo el tiempo adicional de ejecución que tiene está dentro del procesamiento del propio montículo
+//El mergesort consigue dos arreglos y va comparando el primer valor de cada arreglo guardando el de menor valor en otro arreglo Así cuando ya se guardan todos los valores de los arreglos, el resultado está completamente ordenado Este es muy rápido porque realiza pocas operaciones y no pasa a través de interfaces adicionales, pero tiene la debilidad de que si ambos arreglos no están ordenados, no funciona Cada uno tiene su propio método en el programa, bien identificado Y está incluida además la implementación de montículo para usarse en el método del heapsort

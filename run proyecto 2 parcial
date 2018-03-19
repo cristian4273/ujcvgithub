@@ -1,0 +1,112 @@
+public class Run {
+
+	public static void main(String args[]){
+
+		int[] A = new int[25];
+		int[] B = new int[25];
+		int[] C = new int[A.length + B.length];
+
+		for(int i = 0; i < A.length; i++){
+			A[i] = (int) (Math.random() * 100);
+			B[i] = (int) (Math.random() * 100);
+		}
+
+		A = BubbleSort(A);
+		B = BubbleSort(B);
+		for(int i = 0, j = 0, k = 0; i < C.length; i++){
+			if(j < A.length){
+				C[i] = A[j++];
+			}
+			else{
+				C[i] = B[k++];
+			}
+		}
+
+		long T1 = System.nanoTime();
+		ver(BubbleSort(C));
+		long T2 = System.nanoTime();
+		ver(HeapSort(C));
+		long T3 = System.nanoTime();
+		ver(MergeSort(C));
+		long T4 = System.nanoTime();
+
+		System.out.println("Tiempo de ejecución BubbleSort: " + (T2 - T1) + " nanosegundos"
+							+ "\nTiempo de ejecución HeapSort: " + (T3 - T2) + " nanosegundos"
+							+ "\nTiempo de ejecución MergeSort: " + (T4 - T3) + " nanosegundos");
+	}
+
+	public static int[] BubbleSort(int[] A){
+		int[] retval = new int[A.length];
+		for(int i = 0; i < retval.length; i++){
+			retval[i] = A[i];
+		}
+		int temp;
+		for(int i = 0; i < retval.length; i++){
+			for(int j = 0; j < retval.length; j++){
+				if(retval[j] > retval[i]){
+					temp = retval[i];
+					retval[i] = retval[j];
+					retval[j] = temp;
+				}
+			}
+		}
+		return retval;
+	}
+
+	public static int[] HeapSort(int[] A){
+		Heap pila = new Heap();
+		for(int i = 0; i < A.length; i++){
+			pila.agregar(A[i]);
+		}
+		int[] temp = new int[A.length];
+		for(int i = 0; i < temp.length; i++){
+			temp[i] = pila.remover();
+		}
+		return temp;
+	}
+
+	public static int[] MergeSort(int[] A){
+		int[] B, C;
+		if((A.length % 2) == 0){
+			B = new int[A.length / 2];
+			C = new int[A.length / 2];
+		}
+		else{
+			B = new int[(A.length / 2) + 1];
+			C = new int[(A.length / 2)];
+		}
+		for(int i = 0, j = 0, k = 0; i < A.length; i++){
+			if(i < B.length){
+				B[j++] = A[i];
+			}
+			else{
+				C[k++] = A[i];
+			}
+		}
+		int[] temp = new int[A.length];
+		for(int i = 0, j = 0, k = 0; i < temp.length; i++){
+			if(j == B.length){
+				temp[i] = C[k++];
+			}
+			else if(k == C.length){
+				temp[i] = B[j++];
+			}
+			else if(B[j] < C[k]){
+				temp[i] = B[j++];
+			}
+			else{
+				temp[i] = C[k++];
+			}
+		}
+		return temp;
+	}
+
+	public static void ver(int[] A){
+		String retval = "";
+		for(int i = 0; i < A.length; i++){
+			retval = retval + A[i] + " ";
+		}
+		System.out.println(retval);
+	}
+
+}
