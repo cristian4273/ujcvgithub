@@ -101,6 +101,3 @@ public class Heap {
 
 }
 
-//el bubblesort compara cada elemento de la lista con todos los demás elementos y los va sustituyendo de forma que se ordenen de menor a mayor Este es el más largo de todos porque como recorre toda la lista n cantidad de veces, se hace muy extenso
-//El heapsort utiliza la propiedad del montículo que dice que el primer elemento en el montículo siempre será el de menor valor, así que el algoritmo en sí sólo introduce los elementos de la lista uno por uno en el montículo y luego los vuelve a sacar uno por uno En teoría, este es el más rápido porque sólo se mete y se saca la lista, todo el tiempo adicional de ejecución que tiene está dentro del procesamiento del propio montículo
-//El mergesort consigue dos arreglos y va comparando el primer valor de cada arreglo guardando el de menor valor en otro arreglo Así cuando ya se guardan todos los valores de los arreglos, el resultado está completamente ordenado Este es muy rápido porque realiza pocas operaciones y no pasa a través de interfaces adicionales, pero tiene la debilidad de que si ambos arreglos no están ordenados, no funciona Cada uno tiene su propio método en el programa, bien identificado Y está incluida además la implementación de montículo para usarse en el método del heapsort
